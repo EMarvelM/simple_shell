@@ -46,3 +46,52 @@ void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
 		}
 	}
 }
+
+/**
+ * ctrl_c_handler - handles the signal raised by CTRL-C
+ * @signum: signal number
+ *
+ * Return: void
+ */
+
+void ctrl_c_handler(int signum)
+{
+	if ((shell_isatty(STDIN_FILENO)) == 1)
+	{
+		if (signum == SIGINT)
+		{
+			shell_printer("\n$:) ", STDIN_FILENO);
+		}
+	}
+}
+
+/**
+ * remove_comment - removes/ignores everything after a '#' char
+ * @input: input to be used
+ *
+ * Return: void
+ */
+
+void remove_comment(char *input)
+{
+	if ((shell_isatty(STDIN_FILENO)) == 1)
+	{
+		int i = 0;
+
+		if (input[i] == '#')
+		{
+			input[i] = '\0';
+			return;
+		}
+
+		for (; input[i] != '\0'; i++)
+		{
+			if (input[i] == '#' && input[i - 1] == ' ')
+			{
+				break;
+			}
+		}
+
+		input[i] = '\0';
+	}
+}
