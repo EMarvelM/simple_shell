@@ -53,3 +53,32 @@ int _strcspn(char *str1, char *str2)
 	}
 	return (0);
 }
+
+/**
+ *_strchr - locates a char in a string
+ *@s: string to be searched
+ *@c: char to be checked
+ *
+ *Return: returns a mpointer to the first occurence of c in s
+ */
+char *_strchr(char *s, char c)
+{
+	if ((shell_isatty(STDIN_FILENO)) == 1)
+	{
+		int i = 0;
+
+		while (s[i] != c && s[i] != '\0')
+		{
+			i++;
+		}
+		if (s[i] == c)
+		{
+			return (s + i);
+		}
+		else
+		{
+			return (NULL);
+		}
+	}
+	return (NULL);
+}
