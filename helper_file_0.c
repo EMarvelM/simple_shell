@@ -34,3 +34,28 @@ char **str_tokenizer(char *input_str, char *_delimita)
 
 	return (NULL);
 }
+
+/**
+ *_str_comp - compares two strings
+ *@first: the first string to be compared
+ *@second: the second string to be compared
+ *
+ * Return: returns the difference of the two strings
+ */
+int _str_comp(char *first, char *second)
+{
+	if ((shell_isatty(STDIN_FILENO)) == 1)
+	{
+		int i = 0;
+
+		for (i = 0; first[i] != '\0'; i++)
+		{
+			if (first[i] != second[i])
+			{
+				return (first[i] - second[i]);
+			}
+		}
+		return (first[i] - second[i]);
+	}
+	return (0);
+}
