@@ -24,6 +24,29 @@ void newline_remover(char *str)
 	}
 }
 
+/**
+ *_strcopy - copies a string to another buffer
+ *@source: source to copy from
+ *@dest: destination to copy to
+ *
+ * Return: void
+ */
+
+
+void _strcopy(char *source, char *dest)
+{
+	if ((shell_isatty(STDIN_FILENO)) == 1)
+	{	int i = 0;
+
+
+		while (source[i] != '\0')
+		{
+			dest[i] = source[i];
+			i++;
+		}
+		dest[i] = '\0';
+	}
+}
 
 /**
  *_stringlen - counts string length
