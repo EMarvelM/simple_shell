@@ -64,3 +64,35 @@ char *check_path(char *command)
 	}
 	return (NULL);
 }
+
+
+/**
+ * get_cmd_function - retrieves a function based on the command given and a mapping
+ * @command: string to check against the mapping
+ *
+ * Return: pointer to the proper function, or null on fail
+ */
+void (*get_cmd_function(char *command))(char **)
+{
+	if ((shell_isatty(STDIN_FILENO)) == 1)
+	{
+		size_t i = 0;
+		
+		mapping_to_function mapping[] = {
+			{"env", current_env}, {"exit", exiting_program}
+		};
+
+		/*Iterate through the mapping and using a while loop*/
+		while (i < sizeof(mapping) / sizeof(mapping[0]))
+		{
+			if (_str_comp(command, mapping[i].command_name) == 0)
+				return mapping[i].func;
+
+			i++;
+		}
+
+		return (NULL);
+	}
+
+	return (NULL);
+}
