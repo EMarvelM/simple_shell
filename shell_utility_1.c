@@ -77,7 +77,7 @@ void (*get_cmd_function(char *command))(char **)
 	if ((shell_isatty(STDIN_FILENO)) == 1)
 	{
 		size_t i = 0;
-		
+
 		mapping_to_function mapping[] = {
 			{"env", current_env}, {"exit", exiting_program}
 		};
@@ -94,5 +94,45 @@ void (*get_cmd_function(char *command))(char **)
 		return (NULL);
 	}
 
+	return (NULL);
+}
+
+/**
+ * _getenv - gets the value of an environment variable
+ * @name: name of the environment variable
+ *
+ * Return: the value of the variable as a string
+ */
+char *_getenv(char *name)
+{
+	if ((shell_isatty(STDIN_FILENO)) == 1)
+	{
+		char **my_environ = NULL;
+		char *pair_ptr = NULL;
+		char *name_cpy = NULL;
+		int i = 0;
+
+		/* Iterate through environment variables using a while loop*/
+		while ((my_environ = &environ[i]) != NULL && *my_environ != NULL)
+		{
+			/*Iterate through characters of variable name using a do-while*/
+			pair_ptr = *my_environ;
+			name_cpy = name;
+			do
+			{
+				if (*pair_ptr == '=')
+					break;
+				pair_ptr++;
+				name_cpy++;
+			} while (*pair_ptr == *name_cpy);
+
+			/*Return value if variable name matches*/
+			if ((*pair_ptr == '=') && (*name_cpy == '\0'))
+				return (pair_ptr + 1);
+
+			i++; /*Move to the next environment variable*/
+		}
+		return (NULL); /*Variable not found*/
+	}
 	return (NULL);
 }
