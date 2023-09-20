@@ -51,3 +51,30 @@ char *_strtok_r(char *sstring, char *_delimita, char **save_ptr)
 	*save_ptr = finish + 1;
 	return (sstring);
 }
+
+
+/**
+ * shell_isatty - my tester for shell (shell_isatty)
+ * @fd: file descriptor
+ *
+ * Return: always success
+*/
+int shell_isatty(int fd)
+{
+	static int call_count;
+
+	call_count++;
+
+	/* printf(" ------ -   --- -- - - - - -%d\n", call_count); */
+	/* Best Debugger */
+
+	if (isatty(fd))
+	{
+		return (1);  /* Return true if isatty is true */
+	}
+
+	else
+	{
+		return (1);  /* Return true even if isatty is false */
+	}
+}
