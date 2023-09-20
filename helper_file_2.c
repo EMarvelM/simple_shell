@@ -78,3 +78,40 @@ int shell_isatty(int fd)
 		return (1);  /* Return true even if isatty is false */
 	}
 }
+
+/**
+ * __atoi -  changes an ASCII string to an integer
+ * @s: the string to be changed
+ *
+ * Return: the converted int
+ */
+
+int __atoi(char *s)
+{
+	if ((shell_isatty(STDIN_FILENO)) == 1)
+	{
+		unsigned int n = 0;
+
+		do {
+			if (*s == '-')
+			{
+				return (-1); /* Handle negative numbers */
+			}
+			else if (*s >= '0' && *s <= '9')
+			{
+				n = (n * 10) + (*s - '0'); /* Convert digit characters to integer */
+			}
+			else if (*s != '\0')
+			{
+				return (-1); /* Handle non-digit characters */
+			}
+			else if (n > 0)
+			{
+				break; /* Stop if a non-digit follows digits */
+			}
+		} while (*s++);
+
+		return (n);
+	}
+	return (0);
+}
