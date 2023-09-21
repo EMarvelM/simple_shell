@@ -1,14 +1,15 @@
 #include "simple_shell.h"
 
-/** parse_command - determines the type of the command
+/**
+ * parse_command - determines the type of the command
  * @command: command to be parsed
  *
  * Return: constant representing the type of the command
  * Description -
- * 		 EXT_CMD (1) represents commands like /bin/ls
- *		 INT_CMD (2) represents commands like exit, env
- *		 PTH_CMD (3) represents commands found in the PATH like ls
- *		 INVD_CMD (-1) represents invalid commands
+ * EXT_CMD (1) represents commands like /bin/ls
+ * INT_CMD (2) represents commands like exit, env
+ * PTH_CMD (3) represents commands found in the PATH like ls
+ * INVD_CMD (-1) represents invalid commands
  */
 int parse_command(char *command)
 {
@@ -56,32 +57,32 @@ void execute_command(char **cmd_token, int command_type)
 {
 	if ((shell_isatty(STDIN_FILENO)) == 1)
 	{
-		void (*func)(char **command);
+	void (*func)(char **command);
 
-		/* Execute external or path-based command*/
-		if (command_type == EXT_CMD || command_type == PTH_CMD)
+	/* Execute external or path-based command*/
+	if (command_type == EXT_CMD || command_type == PTH_CMD)
+	{
+		char *command_path = (command_type == EXT_CMD) ? cmd_token[0] : check_path(cmd_token[0]);
+		if (execve(command_path, cmd_token, NULL) == -1)
 		{
-			char *command_path = (command_type == EXT_CMD) ? cmd_token[0] : check_path(cmd_token[0]);
-			if (execve(command_path, cmd_token, NULL) == -1)
-			{
-				perror(_getenv("PWD"));
-				exit(2);
-			}
+			perror(_getenv("PWD"));
+			exit(2);
 		}
-		/* Execute internal command*/
-		else if (command_type == INT_CMD)
-		{
-			func = get_cmd_function(cmd_token[0]);
-			func(cmd_token);
-		}
-		/* Invalid command*/
-		else if (command_type == INVD_CMD)
-		{
-			shell_printer(program_name, STDERR_FILENO);
-			shell_printer(": 1: ", STDERR_FILENO);
-			shell_printer(cmd_token[0], STDERR_FILENO);
-			shell_printer(": not found\n", STDERR_FILENO);
-			status = 127;
-		}
+	}
+	/* Execute internal command*/
+	else if (command_type == INT_CMD)
+	{
+		func = get_cmd_function(cmd_token[0]);
+		func(cmd_token);
+	}
+	/* Invalid command*/
+	else if (command_type == INVD_CMD)
+	{
+		shell_printer(program_name, STDERR_FILENO);
+		shell_printer(": 1: ", STDERR_FILENO);
+		shell_printer(cmd_token[0], STDERR_FILENO);
+		shell_printer(": not found\n", STDERR_FILENO);
+		status = 127;
+	}
 	}
 }
