@@ -1,6 +1,6 @@
 #include "simple_shell.h"
 
-/**
+/*
  * parse_command - determines the type of the command
  * @command: command to be parsed
  *
