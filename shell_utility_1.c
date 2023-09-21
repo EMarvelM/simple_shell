@@ -1,21 +1,13 @@
 #include "simple_shell.h"
 
 /**
- * Auth: Egbe Marvelous M
- * 		 DC Ozioma
- *
- * Description:
- * the extended functions for main.c
- */
-
-/**
- * check_path - checks if a command is found in the PATH
- * @command: command to be used
+ * chk_path - checks if a command is found in the PATH
+ * @cmd: command to be used
  *
  * Return: path where the command is found in, NULL if not found
  */
 
-char *check_path(char *command)
+char *chk_path(char *cmd)
 {
 	if ((shell_isatty(STDIN_FILENO)) == 1)
 	{
@@ -30,20 +22,16 @@ char *check_path(char *command)
 		/* Allocate memory for path_copy*/
 		path_copy = malloc(sizeof(*path_copy) * (_stringlen(path) + 1));
 		_strcopy(path, path_copy);
-
 		/* Tokenize path into directories*/
 		path_array = str_tokenizer(path_copy, ":");
-
 		/* Count the number of directories */
-		for (num_directories = 0; path_array[num_directories] != NULL; num_directories++)
-			;
-
+		for (num_directories = 0; path_array[num_directories] != NULL; )
+			num_directories++;
 		/* Iterate through directories to find the command*/
 		for (i = 0; i < num_directories; i++)
 		{
 			temp2 = _str_concat(path_array[i], "/");
-			temp = _str_concat(temp2, command);
-
+			temp = _str_concat(temp2, cmd);
 			/* Check if concatenated path is accessible*/
 			if (access(temp, F_OK) == 0)
 			{
@@ -52,11 +40,9 @@ char *check_path(char *command)
 				free(path_copy);
 				return (temp);
 			}
-
 			free(temp);
 			free(temp2);
 		}
-
 		/* Clean up and return NULL if not found*/
 		free(path_copy);
 		free(path_array);
@@ -67,12 +53,13 @@ char *check_path(char *command)
 
 
 /**
- * get_cmd_function - retrieves a function based on the command given and a mapping
- * @command: string to check against the mapping
+ * get_cmd_function - retrieves a function
+ * based on the command given and a mapping
+ * @cmd: string to check against the mapping
  *
  * Return: pointer to the proper function, or null on fail
  */
-void (*get_cmd_function(char *command))(char **)
+void (*get_cmd_function(char *cmd))(char **)
 {
 	if ((shell_isatty(STDIN_FILENO)) == 1)
 	{
@@ -85,8 +72,8 @@ void (*get_cmd_function(char *command))(char **)
 		/*Iterate through the mapping and using a while loop*/
 		while (i < sizeof(mapping) / sizeof(mapping[0]))
 		{
-			if (_str_comp(command, mapping[i].command_name) == 0)
-				return mapping[i].func;
+			if (_str_comp(cmd, mapping[i].cmd_name) == 0)
+				return (mapping[i].func);
 
 			i++;
 		}
@@ -118,8 +105,7 @@ char *_getenv(char *name)
 			/*Iterate through characters of variable name using a do-while*/
 			pair_ptr = *my_environ;
 			name_cpy = name;
-			do
-			{
+			do {
 				if (*pair_ptr == '=')
 					break;
 				pair_ptr++;

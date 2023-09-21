@@ -1,6 +1,7 @@
 #ifndef SIMPLE_SHELL
 #define SIMPLE_SHELL
 
+
 #include <errno.h>
 #include <dirent.h>
 #include <signal.h>
@@ -23,14 +24,14 @@
 /**
  *struct mapping_function - a struct that maps command name to a function
  *
- *@command_name: name of the command
+ *@cmd_name: name of the command
  *@func: the function that executes the command
  */
 
 typedef struct mapping_function
 {
-	char *command_name;
-	void (*func)(char **command);
+	char *cmd_name;
+	void (*func)(char **cmd);
 } mapping_to_function;
 
 extern char **environ;
@@ -67,15 +68,15 @@ void ctrl_c_handler(int signum);
 void remove_comment(char *input);
 
 /* utilities */
-int parse_command(char *command);
-void execute_command(char **cmd_token, int command_type);
-char *check_path(char *command);
+int parse_command(char *cmd);
+void execute_command(char **cmd_tkn, int cmd_type);
+char *chk_path(char *cmd);
 void (*get_cmd_function(char *))(char **);
 char *_getenv(char *name);
 
 /* implementing the built_in function */
-void current_env(char **cmd_token __attribute__((unused)));
-void exiting_program(char **cmd_token);
+void current_env(char **cmd_tkn __attribute__((unused)));
+void exiting_program(char **cmd_tkn);
 
 /* main */
 extern void uninteractive(void);

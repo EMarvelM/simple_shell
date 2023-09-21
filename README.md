@@ -59,7 +59,7 @@ fork: Creates a new process for executing commands.
 execve: Executes commands and programs.
 wait: Waits for child processes to complete.
 exit: Terminates the shell.
-access: Checks if a command is executable.
+access: Checks if a cmd is executable.
 chdir: Implements the cd command.
 stat: Handles file and directory information.
 malloc and free: Manages memory for data structures.

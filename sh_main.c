@@ -1,13 +1,5 @@
 #include "simple_shell.h"
 
-/**
- * Auth: Egbe Marvelous M
- *               DC Ozioma
- *
- * Description:
- * my main functions for main.c
- */
-
 		char **my_cmds = NULL;
 		char *user_input = NULL;
 		char *program_name = NULL;
@@ -22,9 +14,10 @@
  * implements EOF (End Of File)
  * Print an error if there is a failure
  * Return: ALways (0) on success
+ *
+ * Description:
+ * the extended functions for main.c
  */
-
-
 int main(int argc __attribute__((unused)), char **argv)
 {
 	if ((shell_isatty(STDIN_FILENO)) == 1)
@@ -37,7 +30,6 @@ int main(int argc __attribute__((unused)), char **argv)
 		program_name = argv[0];
 		while (1)
 		{
-
 			uninteractive();
 			shell_printer("$:) ", STDOUT_FILENO);
 			if (getline(&user_input, &n, stdin) == -1)
@@ -58,9 +50,7 @@ int main(int argc __attribute__((unused)), char **argv)
 					break;
 				}
 				cmd_type = parse_command(current_cmd[0]);
-
-				/* initializer -   */
-				setup_init(current_cmd, cmd_type);
+				setup_init(current_cmd, cmd_type);/*initializer*/
 				free(current_cmd);
 			}
 			free(my_cmds);
