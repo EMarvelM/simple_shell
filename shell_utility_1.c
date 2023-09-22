@@ -1,10 +1,16 @@
 #include "simple_shell.h"
 
 /**
- * chk_path - checks if a command is found in the PATH
- * @cmd: command to be used
+ * chk_path - Checks if a command is found in the PATH.
+ * @cmd: The command to be searched for.
  *
- * Return: path where the command is found in, NULL if not found
+ * Return: Pointer to the path of a command if found, or NULL if not found.
+ *
+ * Description:
+ * Takes a command and checks if it can be found in the PATH env variable.
+ * It searches through the directories listed in the PATH and returns
+ * the full path to the command if found, or NULL if the command is not
+ * found in any of the directories.
  */
 
 char *chk_path(char *cmd)
@@ -51,13 +57,17 @@ char *chk_path(char *cmd)
 	return (NULL);
 }
 
-
 /**
- * get_cmd_function - retrieves a function
- * based on the command given and a mapping
- * @cmd: string to check against the mapping
+ * get_cmd_function - Retrieves a function based on a command and a mapping.
+ * @cmd: The string to check against the mapping.
  *
- * Return: pointer to the proper function, or null on fail
+ * Return: Pointer to the proper function, or NULL on fail.
+ *
+ * Description:
+ * This function takes a command (cmd) and searches for it in
+ * a mapping that associates commands with functions. If the command is found,
+ * the corresponding function pointer is returned.
+ * If the command is not found, NULL is returned to indicate failure.
  */
 void (*get_cmd_function(char *cmd))(char **)
 {
@@ -69,7 +79,13 @@ void (*get_cmd_function(char *cmd))(char **)
 			{"env", current_env}, {"exit", exiting_program}
 		};
 
-		/*Iterate through the mapping and using a while loop*/
+		/* Check for setenv and unsetenv */
+		if (_str_comp(cmd, "setenv") == 0)
+			return set_env_var;
+		if (_str_comp(cmd, "unsetenv") == 0)
+			return unset_env_var;
+
+		/* Iterate through the mapping and using a while loop */
 		while (i < sizeof(mapping) / sizeof(mapping[0]))
 		{
 			if (_str_comp(cmd, mapping[i].cmd_name) == 0)
@@ -85,10 +101,16 @@ void (*get_cmd_function(char *cmd))(char **)
 }
 
 /**
- * _getenv - gets the value of an environment variable
- * @name: name of the environment variable
+ * _getenv - Gets the value of an environment variable.
+ * @name: Name of the environment variable.
  *
- * Return: the value of the variable as a string
+ * Return: The value of the variable as a string, or NULL if var is not found.
+ *
+ * Description:
+ * Takes the name of an env variable (name) & retrieves its value from the env.
+ * It iterates through env variables until it finds a match for a given name.
+ * If a match is found, it returns a pointer to the value of the variable;
+ * otherwise, it returns NULL.
  */
 char *_getenv(char *name)
 {

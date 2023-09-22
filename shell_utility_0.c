@@ -1,15 +1,17 @@
 #include "simple_shell.h"
 
 /**
- * parse_command - determines the type of the cmd
- * @cmd: command to be parsed
+ * parse_command - Determines the type of the command.
  *
- * Return: constant representing the type of the command
- * Description -
- * EXT_CMD (1) represents commands like /bin/ls
- * INT_CMD (2) represents commands like exit, env
- * PTH_CMD (3) represents commands found in the PATH like ls
- * INVD_CMD (-1) represents invalid commands
+ * @cmd: The command to be parsed.
+ *
+ * Return: Constant representing the type of the command.
+ *
+ * Description:
+ * - EXT_CMD (1) represents commands like /bin/ls.
+ * - INT_CMD (2) represents commands like exit, env.
+ * - PTH_CMD (3) represents commands found in the PATH like ls.
+ * - INVD_CMD (-1) represents invalid commands.
  */
 
 int parse_command(char *cmd)
