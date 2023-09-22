@@ -79,13 +79,7 @@ void (*get_cmd_function(char *cmd))(char **)
 			{"env", current_env}, {"exit", exiting_program}
 		};
 
-		/* Check for setenv and unsetenv */
-		if (_str_comp(cmd, "setenv") == 0)
-			return set_env_var;
-		if (_str_comp(cmd, "unsetenv") == 0)
-			return unset_env_var;
-
-		/* Iterate through the mapping and using a while loop */
+		/*Iterate through the mapping and using a while loop*/
 		while (i < sizeof(mapping) / sizeof(mapping[0]))
 		{
 			if (_str_comp(cmd, mapping[i].cmd_name) == 0)

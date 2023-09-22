@@ -19,63 +19,47 @@
  *
  * Return: Always (1) on success.
  */
+
 int main(int argc __attribute__((unused)), char **argv)
 {
-    if ((shell_isatty(STDIN_FILENO)) == 1)
-    {
-        char **current_cmd = NULL;
-        int i, cmd_type = 0;
-        size_t n = 0;
+	if ((shell_isatty(STDIN_FILENO)) == 1)
+	{
+		char **current_cmd = NULL;
+		int i, cmd_type = 0;
+		size_t n = 0;
 
-        signal(SIGINT, ctrl_c_handler);
-        program_name = argv[0];
-        while (1)
-        {
-            uninteractive();
-            shell_printer("$:) ", STDOUT_FILENO);
-            if (getline(&user_input, &n, stdin) == -1)
-            {
-                free(user_input);
-                exit(status);
-            }
-            newline_remover(user_input);
-            remove_comment(user_input);
-            my_cmds = str_tokenizer(user_input, ";");
+		signal(SIGINT, ctrl_c_handler);
+		program_name = argv[0];
+		while (1)
+		{
+			uninteractive();
+			shell_printer("$:) ", STDOUT_FILENO);
+			if (getline(&user_input, &n, stdin) == -1)
+			{
+				free(user_input);
+				exit(status);
+			}
+				newline_remover(user_input);
+				remove_comment(user_input);
+				my_cmds = str_tokenizer(user_input, ";");
 
-            for (i = 0; my_cmds[i] != NULL; i++)
-            {
-                current_cmd = str_tokenizer(my_cmds[i], " ");
-                if (current_cmd[0] == NULL)
-                {
-                    free(current_cmd);
-                    break;
-                }
+			for (i = 0; my_cmds[i] != NULL; i++)
+			{
+				current_cmd = str_tokenizer(my_cmds[i], " ");
+				if (current_cmd[0] == NULL)
+				{
+					free(current_cmd);
+					break;
+				}
+				cmd_type = parse_command(current_cmd[0]);
+				setup_init(current_cmd, cmd_type);/*initializer*/
+				free(current_cmd);
+			}
+			free(my_cmds);
+		}
+		free(user_input);
 
-                // Check for built-in commands
-                cmd_type = parse_command(current_cmd[0]);
-                if (cmd_type == BUILTIN_COMMAND) {
-                    // Call get_cmd_function to get the appropriate function
-                    void (*builtin_func)(char **) = get_cmd_function(current_cmd[0]);
-
-                    if (builtin_func != NULL) {
-                        // Execute the built-in command function
-                        builtin_func(current_cmd);
-                    } else {
-                        // Handle unknown built-in command
-                        printf("%s: command not found\n", current_cmd[0]);
-                    }
-                } else {
-                    // For non-built-in commands, call setup_init as before
-                    setup_init(current_cmd, cmd_type); /* initializer */
-                }
-
-                free(current_cmd);
-            }
-            free(my_cmds);
-        }
-        free(user_input);
-
-        return (status);
-    }
-    return (0);
+		return (status);
+	}
+	return (0);
 }
