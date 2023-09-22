@@ -81,6 +81,8 @@ void exiting_program(char **cmd_tkn);
 /* main */
 extern void uninteractive(void);
 extern void setup_init(char **current_cmd, int cmd_type);
-
+ssize_t _getline(char **line, size_t *len, FILE *stream);
+size_t _strlen(const char *str);
+char *_fgets(char *buffer, int max_length, FILE *stream);
 
 #endif /* SIMPLE_SHELL */

@@ -14,7 +14,7 @@ void uninteractive(void)
 
 	if (!(isatty(STDIN_FILENO)))
 	{
-		while (getline(&user_input, &n, stdin) != -1)
+		while (_getline(&user_input, &n, stdin) != -1)
 		{
 			newline_remover(user_input);
 			remove_comment(user_input);

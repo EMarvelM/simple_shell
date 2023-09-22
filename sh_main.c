@@ -34,7 +34,7 @@ int main(int argc __attribute__((unused)), char **argv)
 		{
 			uninteractive();
 			shell_printer("$:) ", STDOUT_FILENO);
-			if (getline(&user_input, &n, stdin) == -1)
+			if (_getline(&user_input, &n, stdin) == -1)
 			{
 				free(user_input);
 				exit(status);
