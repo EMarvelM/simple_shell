@@ -21,8 +21,6 @@
 
 #define minimum_Value(a, b) (((a) < (b)) ? (a) : (b))
 
-
-
 /**
  *struct mapping_function - a struct that maps command name to a function
  *
@@ -47,7 +45,6 @@ extern char *program_name;
 extern int status;
 
 int shell_isatty(int fd);
-
 
 /* help_0- printing, tokenizing & removing newline characters */
 void shell_printer(char *sstring, int output_stream);
@@ -84,15 +81,6 @@ void exiting_program(char **cmd_tkn);
 /* main */
 extern void uninteractive(void);
 extern void setup_init(char **current_cmd, int cmd_type);
-
-void terminate_buffer(ssize_t len, char *buf);
-char *allocate_buffer(size_t buf_size);
-char *expand_buffer(char *buf, size_t buf_size);
-int is_empty_line(ssize_t len, char *buf);
-int handle_empty_line(char *buf, char **lineptr);
-void *my_realloc(void *ptr, size_t size);
-void *my_memcpy(void *dest, const void *src, size_t n);
-ssize_t my_getline(char **lineptr, size_t *n, int fd);
 
 
 #endif /* SIMPLE_SHELL */
